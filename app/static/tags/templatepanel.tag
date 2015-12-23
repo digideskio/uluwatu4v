@@ -32,6 +32,10 @@
                                         <a id="gcpTemplateChange" class="btn btn-default" role="button" ng-click="createGcpTemplateRequest()">{{msg.gcp_label}}</a>
                                         <a id="openstackTemplateChange" class="btn btn-default" role="button" ng-click="createOpenstackTemplateRequest()">{{msg.openstack_label}}</a>
                                     </div>
+                                    <div class="btn-group btn-group-justified">
+                                        <a id="vsphereTemplateChange" class="btn btn-default" role="button" ng-click="createVsphereTemplateRequest()">{{msg.vsphere_label}}</a>
+                                        <a id="noneTemplateChange" class="btn btn-default" role="button" ng-click="" disabled>None</a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -50,6 +54,9 @@
                             </form>
                             <form class="form-horizontal" role="form" ng-show="openstackTemplate" name="openstackTemplateForm" ng-show="openstackTemplate">
                                 <div ng-include src="'tags/template/openstackform.tag'"></div>
+                            </form>
+                            <form class="form-horizontal" role="form" ng-show="vsphereTemplate" name="vsphereTemplateForm" ng-show="vsphereTemplate">
+                                <div ng-include src="'tags/template/vsphereform.tag'"></div>
                             </form>
                         </div>
                     </div>
@@ -93,6 +100,10 @@
 
                             <div class="panel-body" ng-if="template.cloudPlatform == 'OPENSTACK' ">
                                 <div ng-include src="'tags/template/openstacklist.tag'"></div>
+                            </div>
+
+                            <div class="panel-body" ng-if="template.cloudPlatform == 'VSPHERE' ">
+                                <div ng-include src="'tags/template/vspherelist.tag'"></div>
                             </div>
 
                         </div>

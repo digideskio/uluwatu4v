@@ -10,10 +10,12 @@ angular.module('uluwatuControllers').controller('templateController', ['$scope',
         $scope.gcpTemplateForm = {};
         $scope.openstackTemplateForm = {};
         $scope.awsInstanceType = {};
+        $scope.vsphereTemplateForm = {};
         initializeAzureTemp();
         initializeAwsTemp();
         initializeGcpTemp();
         initializeOpenstackTemp();
+        initializeVsphereTemp();
         $scope.showAlert = false;
         $scope.alertMessage = "";
 
@@ -22,6 +24,7 @@ angular.module('uluwatuControllers').controller('templateController', ['$scope',
             $scope.awsTemplate = true;
             $scope.gcpTemplate = false;
             $scope.openstackTemplate = false;
+            $scope.vsphereTemplate = false;
         }
 
         $scope.createAzureTemplateRequest = function() {
@@ -29,6 +32,7 @@ angular.module('uluwatuControllers').controller('templateController', ['$scope',
             $scope.awsTemplate = false;
             $scope.gcpTemplate = false;
             $scope.openstackTemplate = false;
+            $scope.vsphereTemplate = false;
         }
 
         $scope.createGcpTemplateRequest = function() {
@@ -36,6 +40,7 @@ angular.module('uluwatuControllers').controller('templateController', ['$scope',
             $scope.awsTemplate = false;
             $scope.gcpTemplate = true;
             $scope.openstackTemplate = false;
+            $scope.vsphereTemplate = false;
         }
 
         $scope.createOpenstackTemplateRequest = function() {
@@ -43,6 +48,15 @@ angular.module('uluwatuControllers').controller('templateController', ['$scope',
             $scope.awsTemplate = false;
             $scope.gcpTemplate = false;
             $scope.openstackTemplate = true;
+            $scope.vsphereTemplate = false;
+        }
+
+        $scope.createVsphereTemplateRequest = function() {
+            $scope.azureTemplate = false;
+            $scope.awsTemplate = false;
+            $scope.gcpTemplate = false;
+            $scope.openstackTemplate = false;
+            $scope.vsphereTemplate = true;
         }
 
         $scope.createAwsTemplate = function() {
@@ -163,6 +177,36 @@ angular.module('uluwatuControllers').controller('templateController', ['$scope',
             }
         }
 
+        $scope.createVsphereTemplate = function() {
+            $scope.vsphereTemp.cloudPlatform = 'VSPHERE';
+            if ($scope.vsphereTemp.public) {
+                AccountTemplate.save($scope.vsphereTemp, function(result) {
+                    handleVsphereTemplateSuccess(result)
+                }, function(error) {
+                    $scope.showError(error, $rootScope.msg.vsphere_template_failed);
+                    $scope.showErrorMessageAlert();
+                });
+            } else {
+                UserTemplate.save($scope.vsphereTemp, function(result) {
+                    handleVsphereTemplateSuccess(result)
+                }, function(error) {
+                    $scope.showError(error, $rootScope.msg.vsphere_template_failed);
+                    $scope.showErrorMessageAlert();
+                });
+            }
+
+            function handleVsphereTemplateSuccess(result) {
+                $scope.vsphereTemp.id = result.id;
+                $rootScope.templates.push($scope.vsphereTemp);
+                initializeVsphereTemp();
+                $scope.showSuccess($filter("format")($rootScope.msg.vsphere_template_success, String(result.id)));
+                $scope.vsphereTemplateForm.$setPristine();
+                collapseCreateTemplateFormPanel();
+                $scope.unShowErrorMessageAlert()
+            }
+
+        }
+
         $scope.deleteTemplate = function(template) {
             GlobalTemplate.delete({
                 id: template.id
@@ -239,6 +283,14 @@ angular.module('uluwatuControllers').controller('templateController', ['$scope',
                     gcpInstanceType: "N1_STANDARD_2",
                     volumeType: "HDD"
                 }
+            }
+        }
+
+        function initializeVsphereTemp() {
+            $scope.vsphereTemp = {
+                volumeCount: 1,
+                volumeSize: 100,
+                parameters: {}
             }
         }
 
