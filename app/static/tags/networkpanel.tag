@@ -32,6 +32,10 @@
                                         <a id="gcpNetworkChange" class="btn btn-default" role="button" ng-click="createGcpNetworkRequest()">{{msg.gcp_label}}</a>
                                         <a id="openstackNetworkChange" class="btn btn-default" role="button" ng-click="createOpenstackNetworkRequest()">{{msg.openstack_label}}</a>
                                     </div>
+                                    <div class="btn-group btn-group-justified">
+                                        <a id="vsphereNetworkChange" class="btn btn-default" role="button" ng-click="createVsphereNetworkRequest()">{{msg.vsphere_label}}</a>
+                                        <a id="noneNetworkChange" class="btn btn-default" role="button" ng-click="" disabled>None</a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -50,6 +54,9 @@
                             </form>
                             <form class="form-horizontal" role="form" ng-show="openstackNetwork" name="openstackNetworkForm" ng-show="openstackNetwork">
                                 <div ng-include src="'tags/network/openstacknetworkform.tag'"></div>
+                            </form>
+                            <form class="form-horizontal" role="form" ng-show="vsphereNetwork" name="vsphereNetworkForm" ng-show="vsphereNetwork">
+                                <div ng-include src="'tags/network/vspherenetworkform.tag'"></div>
                             </form>
                         </div>
                     </div>
@@ -93,6 +100,10 @@
 
                             <div class="panel-body" ng-if="network.cloudPlatform == 'OPENSTACK' ">
                                 <div ng-include src="'tags/network/openstacknetworklist.tag'"></div>
+                            </div>
+
+                            <div class="panel-body" ng-if="network.cloudPlatform == 'VSPHERE' ">
+                                <div ng-include src="'tags/network/vspherenetworklist.tag'"></div>
                             </div>
 
                         </div>

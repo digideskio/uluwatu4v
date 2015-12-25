@@ -17,6 +17,7 @@ angular.module('uluwatuControllers').controller('networkController', ['$scope', 
             $scope.awsNetwork = true;
             $scope.gcpNetwork = false;
             $scope.openstackNetwork = false;
+            $scope.vsphereNetwork = false;
         }
 
         $scope.createAzureNetworkRequest = function() {
@@ -25,6 +26,7 @@ angular.module('uluwatuControllers').controller('networkController', ['$scope', 
             $scope.awsNetwork = false;
             $scope.gcpNetwork = false;
             $scope.openstackNetwork = false;
+            $scope.vsphereNetwork = false;
         }
 
         $scope.createGcpNetworkRequest = function() {
@@ -33,6 +35,7 @@ angular.module('uluwatuControllers').controller('networkController', ['$scope', 
             $scope.awsNetwork = false;
             $scope.gcpNetwork = true;
             $scope.openstackNetwork = false;
+            $scope.vsphereNetwork = false;
         }
 
         $scope.createOpenstackNetworkRequest = function() {
@@ -41,6 +44,16 @@ angular.module('uluwatuControllers').controller('networkController', ['$scope', 
             $scope.awsNetwork = false;
             $scope.gcpNetwork = false;
             $scope.openstackNetwork = true;
+            $scope.vsphereNetwork = false;
+        }
+
+        $scope.createVsphereNetworkRequest = function() {
+            initializeFormsAndScopeNetwork()
+            $scope.azureNetwork = false;
+            $scope.awsNetwork = false;
+            $scope.gcpNetwork = false;
+            $scope.openstackNetwork = false;
+            $scope.vsphereNetwork = true;
         }
 
         $scope.createAwsNetwork = function() {
@@ -60,6 +73,11 @@ angular.module('uluwatuControllers').controller('networkController', ['$scope', 
 
         $scope.createAzureNetwork = function() {
             $scope.network.cloudPlatform = "AZURE";
+            doCreateNetwork();
+        }
+
+        $scope.createVsphereNetwork = function() {
+            $scope.network.cloudPlatform = 'VSPHERE';
             doCreateNetwork();
         }
 
@@ -113,6 +131,7 @@ angular.module('uluwatuControllers').controller('networkController', ['$scope', 
             $scope.gcpNetworkForm.$setPristine();
             $scope.azureNetworkForm.$setPristine();
             $scope.openstackNetworkForm.$setPristine();
+            $scope.vsphereNetworkForm.$setPristine();
             $scope.network = {};
         }
 
