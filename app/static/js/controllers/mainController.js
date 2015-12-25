@@ -686,6 +686,13 @@ angular.module('uluwatuControllers').controller('mainController', ['$scope', '$r
                     cloud: 'OPENSTACK'
                 }]
             },
+            'VSPHERE': {
+                regions: [{
+                    key: 'NATIVE',
+                    value: 'native',
+                    cloud: 'VSPHERE'
+                }]
+            },
             'RECIPE_TYPE': {
                 content_types: [{
                     key: 'SCRIPT',

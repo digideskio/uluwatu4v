@@ -40,6 +40,9 @@
         <select class="form-control" id="selectRegion" ng-model="cluster.region" ng-show="activeCredential.cloudPlatform == 'AZURE_RM'">
             <option ng-repeat="region in $root.config.AZURE_RM.azureRegions" value="{{region.key}}">{{region.value}}</option>
         </select>
+        <select class="form-control" id="selectRegion" ng-model="cluster.region" ng-show="activeCredential.cloudPlatform == 'VSPHERE'">
+            <option ng-repeat="region in $root.config.VSPHERE.regions" value="{{region.key}}">{{region.value}}</option>
+        </select>
     </div>
 </div>
 <div class="form-group" ng-show="activeCredential.cloudPlatform == 'AWS' && cluster.region && showAdvancedOptionForm">
