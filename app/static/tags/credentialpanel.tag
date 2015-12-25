@@ -36,6 +36,10 @@
                                         <a id="gcpChange" type="button" class="btn btn-default" ng-click="createGcpCredentialRequest()">{{msg.gcp_label}}</a>
                                         <a id="openstackChange" type="button" class="btn btn-default" ng-click="createOpenstackCredentialRequest()">{{msg.openstack_label}}</a>
                                     </div>
+                                    <div class="btn-group btn-group-justified">
+                                        <a id="vsphereChange" type="button" class="btn btn-default" ng-click="createVsphereCredentialRequest()">{{msg.vsphere_label}}</a>
+                                        <a id="noneChange" type="button" class="btn btn-default" ng-click="" disabled>None</a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="alert alert-danger" role="alert" ng-show="showAlert" ng-click="unShowErrorMessageAlert()">{{alertMessage}}</div>
@@ -54,6 +58,10 @@
 
                             <form class="form-horizontal" role="form" name="openstackCredentialForm" ng-show="openstackCredential && !credentialInCreation">
                                 <div ng-include src="'tags/credential/openstackform.tag'"></div>
+                            </form>
+
+                            <form class="form-horizontal" role="form" name="vsphereCredentialForm" ng-show="vsphereCredential && !credentialInCreation">
+                                <div ng-include src="'tags/credential/vsphereform.tag'"></div>
                             </form>
                         </div>
                     </div>
@@ -102,6 +110,10 @@
 
                             <div class="panel-body" ng-if="credential.cloudPlatform == 'OPENSTACK' ">
                                 <div ng-include src="'tags/credential/openstacklist.tag'"></div>
+                            </div>
+
+                            <div class="panel-body" ng-if="credential.cloudPlatform == 'VSPHERE' ">
+                                <div ng-include src="'tags/credential/vspherelist.tag'"></div>
                             </div>
 
                         </div>

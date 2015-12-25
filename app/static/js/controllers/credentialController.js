@@ -11,15 +11,18 @@ angular.module('uluwatuControllers').controller('credentialController', ['$scope
         $scope.credentialAzureRm = {};
         $scope.credentialGcp = {};
         $scope.credentialOpenstack = {};
+        $scope.credentialVsphere = {};
         $scope.azureRmCredential = false;
         $scope.awsCredential = true;
         $scope.gcpCredential = false;
         $scope.openstackCredential = false;
+        $scope.vsphereCredential = false;
         $scope.awsCredentialForm = {};
         $scope.gcpCredentialForm = {};
         $scope.azureCredentialForm = {};
         $scope.azureRmCredentialForm = {};
         $scope.openstackCredentialForm = {};
+        $scope.vsphereCredentialForm = {};
         $scope.gcp = {};
         $scope.gcp.p12 = "";
         $scope.showAlert = false;
@@ -30,6 +33,7 @@ angular.module('uluwatuControllers').controller('credentialController', ['$scope
             $scope.gcpCredential = false;
             $scope.openstackCredential = false;
             $scope.azureRmCredential = true;
+            $scope.vsphereCredential = false;
         }
 
         $scope.createAwsCredentialRequest = function() {
@@ -37,6 +41,7 @@ angular.module('uluwatuControllers').controller('credentialController', ['$scope
             $scope.gcpCredential = false;
             $scope.openstackCredential = false;
             $scope.azureRmCredential = false;
+            $scope.vsphereCredential = false;
         }
 
         $scope.createGcpCredentialRequest = function() {
@@ -44,6 +49,7 @@ angular.module('uluwatuControllers').controller('credentialController', ['$scope
             $scope.gcpCredential = true;
             $scope.openstackCredential = false;
             $scope.azureRmCredential = false;
+            $scope.vsphereCredential = false;
         }
 
         $scope.createOpenstackCredentialRequest = function() {
@@ -51,6 +57,15 @@ angular.module('uluwatuControllers').controller('credentialController', ['$scope
             $scope.gcpCredential = false;
             $scope.openstackCredential = true;
             $scope.azureRmCredential = false;
+            $scope.vsphereCredential = false;
+        }
+
+        $scope.createVsphereCredentialRequest = function() {
+            $scope.awsCredential = false;
+            $scope.gcpCredential = false;
+            $scope.openstackCredential = false;
+            $scope.azureRmCredential = false;
+            $scope.vsphereCredential = true;
         }
 
         $scope.refreshCertificateFile = function(credentialId) {
@@ -209,6 +224,40 @@ angular.module('uluwatuControllers').controller('credentialController', ['$scope
             var blob = p12File.slice(0, p12File.size);
             reader.readAsBinaryString(blob);
 
+        }
+
+        $scope.createVsphereCredential = function() {
+            $scope.credentialVsphere.cloudPlatform = "VSPHERE";
+            $scope.credentialInCreation = true;
+
+            if ($scope.credentialVsphere.public) {
+                AccountCredential.save($scope.credentialVsphere, function(result) {
+                    handleVsphereCredentialSuccess(result)
+                }, function(error) {
+                    $scope.showError(error, $rootScope.msg.vsphere_credential_failed);
+                    $scope.credentialInCreation = false;
+                    $scope.showErrorMessageAlert();
+                });
+            } else {
+                UserCredential.save($scope.credentialVsphere, function(result) {
+                    handleVsphereCredentialSuccess(result)
+                }, function(error) {
+                    $scope.showError(error, $rootScope.msg.vsphere_credential_failed);
+                    $scope.credentialInCreation = false;
+                    $scope.showErrorMessageAlert();
+                });
+            }
+
+            function handleVsphereCredentialSuccess(result) {
+                $scope.credentialVsphere.id = result.id;
+                $rootScope.credentials.push($scope.credentialVsphere);
+                $scope.credentialVsphere = {};
+                $scope.showSuccess($filter("format")($rootScope.msg.vsphere_credential_success, String(result.id)));
+                $scope.vsphereCredentialForm.$setPristine();
+                collapseCreateCredentialFormPanel();
+                $scope.credentialInCreation = false;
+                $scope.unShowErrorMessageAlert();
+            }
         }
 
         $scope.deleteCredential = function(credential) {
